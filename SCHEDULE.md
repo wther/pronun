@@ -1,7 +1,7 @@
 Delivery Schedule & Work Log
 ============================
 
-As part of the assigment I'm required to lay down a plan about what I'm going to do the next semester. Additionally, I'll be expected to attach a **work log** to the paper I'll have to write once I'm finished. As I'm still learning most of the technologies I'm planning to use, and it's hard to see how much time I'll be able to set aside for the project I'm sure I won't be able to follow the plan to the letter.
+As part of the assignment I'm required to lay down a plan about what I'm going to do the next semester. Additionally, I'll be expected to attach a **work log** to the paper I'll have to write once I'm finished. As I'm still learning most of the technologies I'm planning to use, and it's hard to see how much time I'll be able to set aside for the project I'm sure I won't be able to follow the plan to the letter.
 
 2nd week - February 23
 ----------------------
@@ -13,7 +13,7 @@ I'll also study the Java EE platform and Maven, and I'll implement the outline o
 4th week - March 9
 ------------------
 
-I wish to implement a demo of the final appliction by the 4th week capable of sending hand made samples to the browser, playing them, and allowing the user to compare them to their own voices.
+I wish to implement a demo of the final application by the 4th week capable of sending hand made samples to the browser, playing them, and allowing the user to compare them to their own voices.
 
 6th week - March 23
 -------------------
