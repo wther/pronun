@@ -1,5 +1,87 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset=utf-8>
+	<title>English Pronunciation Trainer | Demo</title>
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="js/recorder.js"></script>
+		
+	<script>
+		var recorder = undefined;
+
+		var initRecorder = function(callback) {
+			if (recorder !== undefined) {
+				return;
+			}
+
+			window.URL = window.URL || window.webkitURL;
+			navigator.getUserMedia = navigator.getUserMedia
+					|| navigator.webkitGetUserMedia
+					|| navigator.mozGetUserMedia || navigator.msGetUserMedia;
+			if (navigator.getUserMedia) {
+				navigator.getUserMedia({
+					audio : true
+				},
+				//onSuccess
+				function(s) {
+					var context = new webkitAudioContext();
+					var mediaStreamSource = context.createMediaStreamSource(s);
+					recorder = new Recorder(mediaStreamSource, {
+						workerPath : "js/recorderWorker.js"
+					});
+					callback();
+				},
+				//onFail
+				function(e) {
+					console.log('Rejected!', e);
+				});
+			} else {
+				console.log('navigator.getUserMedia not present');
+			}
+		}
+
+		var startRecording = function() {
+			if (recorder === undefined) {
+				initRecorder(startRecording);
+			} else {
+				recorder.clear();
+				recorder.record();
+				setTimeout(stopRecording, 5000);
+				console.log("recording");
+			}
+		}
+
+		var stopRecording = function() {
+			recorder.stop();
+			console.log("uploading");
+
+			recorder.exportWAV(function(soundBlob) {
+				var formData = new FormData();
+				formData.append('fname', 'voice.wav');
+				formData.append('data', soundBlob);
+				
+				// Uploading blob to the java server
+				$.ajax({
+					type : 'POST',
+					url : '/api/voice',
+					data : formData,
+					processData : false,
+					contentType : false,
+					headers: {
+						"X-Voice-Session": "test-session",
+						"X-Puzzle-Id": "test-puzzle"
+					}
+				}).done(function(data) {
+					console.log(data);
+				});
+			});
+
+		}
+	</script>
+</head>
 <body>
-<h2>Hello World!</h2>
+	<section id="wrapper">
+    	<input onclick="startRecording()" type="button" value="Click me!" />
+	</section>
 </body>
-</html>
