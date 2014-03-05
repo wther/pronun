@@ -10,3 +10,12 @@
 /pronun-webapp/.settings/org.eclipse.wst.jsdt.ui.superType.name
 /pronun-webapp/.settings/org.eclipse.wst.validation.prefs
 /pronun-webapp/.settings
+/pronun-voice/*.classpath
+/pronun-voice/*.gitignore
+/pronun-voice/*.project
+/pronun-voice/.settings/org.eclipse.core.resources.prefs
+/pronun-voice/.settings/org.eclipse.jdt.core.prefs
+/pronun-voice/.settings/org.eclipse.jdt.ui.prefs
+/pronun-voice/.settings/org.eclipse.m2e.core.prefs
+/pronun-voice/.settings/org.eclipse.wst.common.component
+/pronun-voice/.settings/org.eclipse.wst.common.project.facet.core.xml

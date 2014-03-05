@@ -1,87 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset=utf-8>
-	<title>English Pronunciation Trainer | Demo</title>
-	
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="js/recorder.js"></script>
-		
-	<script>
-		var recorder = undefined;
+<meta charset=utf-8>
+<title>English Pronunciation Trainer | Demo</title>
 
-		var initRecorder = function(callback) {
-			if (recorder !== undefined) {
-				return;
-			}
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="js/recorder.js"></script>
 
-			window.URL = window.URL || window.webkitURL;
-			navigator.getUserMedia = navigator.getUserMedia
-					|| navigator.webkitGetUserMedia
-					|| navigator.mozGetUserMedia || navigator.msGetUserMedia;
-			if (navigator.getUserMedia) {
-				navigator.getUserMedia({
-					audio : true
-				},
-				//onSuccess
-				function(s) {
-					var context = new webkitAudioContext();
-					var mediaStreamSource = context.createMediaStreamSource(s);
-					recorder = new Recorder(mediaStreamSource, {
-						workerPath : "js/recorderWorker.js"
-					});
-					callback();
-				},
-				//onFail
-				function(e) {
-					console.log('Rejected!', e);
-				});
-			} else {
-				console.log('navigator.getUserMedia not present');
-			}
-		}
+<script>
+    var recorder = undefined;
 
-		var startRecording = function() {
-			if (recorder === undefined) {
-				initRecorder(startRecording);
-			} else {
-				recorder.clear();
-				recorder.record();
-				setTimeout(stopRecording, 5000);
-				console.log("recording");
-			}
-		}
+    var initRecorder = function(callback) {
+        if (recorder !== undefined) {
+            return;
+        }
 
-		var stopRecording = function() {
-			recorder.stop();
-			console.log("uploading");
+        window.URL = window.URL || window.webkitURL;
+        navigator.getUserMedia = navigator.getUserMedia
+                || navigator.webkitGetUserMedia || navigator.mozGetUserMedia
+                || navigator.msGetUserMedia;
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia({
+                audio : true
+            },
+            //onSuccess
+            function(s) {
+                var context = new webkitAudioContext();
+                var mediaStreamSource = context.createMediaStreamSource(s);
+                recorder = new Recorder(mediaStreamSource, {
+                    workerPath : "js/recorderWorker.js"
+                });
+                callback();
+            },
+            //onFail
+            function(e) {
+                console.log('Rejected!', e);
+            });
+        } else {
+            console.log('navigator.getUserMedia not present');
+        }
+    }
 
-			recorder.exportWAV(function(soundBlob) {
-				var formData = new FormData();
-				formData.append('fname', 'voice.wav');
-				formData.append('data', soundBlob);
-				
-				// Uploading blob to the java server
-				$.ajax({
-					type : 'POST',
-					url : '/api/voice',
-					data : formData,
-					processData : false,
-					contentType : false,
-					headers: {
-						"X-Voice-Session": "test-session",
-						"X-Puzzle-Id": "test-puzzle"
-					}
-				}).done(function(data) {
-					console.log(data);
-				});
-			});
+    var startRecording = function() {
+        if (recorder === undefined) {
+            initRecorder(startRecording);
+        } else {
+            recorder.clear();
+            recorder.record();
+            setTimeout(stopRecording, 10000);
+            console.log("recording");
+        }
+    }
+    
+    var resetPlayback = function(audio, data){
+    	audio.play();
+    	audio.currentTime = data.speechStart;
+    	setTimeout(function(){resetPlayback(audio, data)}, 1000.0 * data.interval);
+    }
 
-		}
-	</script>
+    var stopRecording = function() {
+        recorder.stop();
+        console.log("uploading");
+
+        recorder.exportWAV(function(soundBlob) {
+            var formData = new FormData();
+            formData.append('fname', 'voice.wav');
+            formData.append('data', soundBlob);
+
+            // Uploading blob to the java server
+            $.ajax({
+                type : 'POST',
+                url : '/api/voice',
+                data : formData,
+                processData : false,
+                contentType : false,
+                headers : {
+                    "X-Voice-Session" : "test-session",
+                    "X-Puzzle-Id" : "test-puzzle"
+                }
+            }).done(function(data) {
+                var audio = document.querySelector('audio');
+                console.log(data);
+                audio.src = window.URL.createObjectURL(soundBlob);
+                audio.oncanplay=function(){
+                    resetPlayback(audio, data);
+                };
+            });
+        });
+    }
+</script>
 </head>
 <body>
 	<section id="wrapper">
-    	<input onclick="startRecording()" type="button" value="Click me!" />
+		<audio controls autoplay></audio>
+		<input onclick="startRecording()" type="button" value="Click me!" />
 	</section>
 </body>

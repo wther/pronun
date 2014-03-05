@@ -6,10 +6,10 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.webther.pronun.webapp</groupId>
-	<artifactId>pronun-webapp</artifactId>
-	<packaging>war</packaging>
-	<name>Pronunciation Web Application</name>
+	<groupId>com.webther.pronun.voice</groupId>
+	<artifactId>pronun-voice</artifactId>
+	<packaging>jar</packaging>
+	<name>Pronunciation Voice Processing Library</name>
 
 	<build>
 		<resources>
@@ -21,59 +21,12 @@
 		<testResources>
 			<testResource>
 				<directory>${basedir}/src/test/resources</directory>
-				<filtering>true</filtering>
-			</testResource>
-			<testResource>
-				<directory>src/main/webapp/WEB-INF</directory>
+				<filtering>false</filtering>
 			</testResource>
 		</testResources>
 	</build>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.webther.pronun.voice</groupId>
-			<artifactId>pronun-voice</artifactId>
-		</dependency>
-
-		<!-- Logging -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-		</dependency>
-
-		<!-- Javax servlet -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- Apache Commons Upload -->
-		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>1.2</version>
-		</dependency>
-
-		<!-- Apache Commons Upload -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
-		</dependency>
-
 		<!-- Spring MVC framework -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -101,11 +54,25 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
 		</dependency>
+
+		<!-- Logging -->
 		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+
 		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -124,6 +91,22 @@
 			<artifactId>spring-test</artifactId>
 			<version>3.2.3.RELEASE</version>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+
+		<!-- TarsosDSP, a Real-Time Audio Processing Framework in Java Source: 
+			https://github.com/JorenSix/TarsosDSP -->
+			
+		<!-- TODO: Create maven plugin to install the JAR file  -->
+		<dependency>
+			<groupId>tarsosdsp</groupId>
+			<artifactId>tarsosdsp</artifactId>
+			<version>1.7.0</version>
 		</dependency>
 	</dependencies>
 
