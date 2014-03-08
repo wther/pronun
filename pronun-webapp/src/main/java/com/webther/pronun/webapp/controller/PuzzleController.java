@@ -31,6 +31,7 @@ public class PuzzleController {
 
     @RequestMapping(value = "/puzzle/{puzzle_id}", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<PuzzleEntity> getPuzzle(@PathVariable("puzzle_id") String puzzleId, HttpServletResponse response) {
+        LOGGER.debug("Puzzle requested: {}", puzzleId);
         return new ResponseEntity<PuzzleEntity>(service.getPuzzle(puzzleId), HttpStatus.OK);
     }
 }

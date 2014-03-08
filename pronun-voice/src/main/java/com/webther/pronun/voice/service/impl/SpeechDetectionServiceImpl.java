@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import be.hogent.tarsos.dsp.AudioDispatcher;
 
+import com.webther.pronun.voice.entity.SpeechInterval;
 import com.webther.pronun.voice.processor.SpeechDetector;
-import com.webther.pronun.voice.processor.SpeechInterval;
 import com.webther.pronun.voice.service.SpeechDetectionService;
 
 /**

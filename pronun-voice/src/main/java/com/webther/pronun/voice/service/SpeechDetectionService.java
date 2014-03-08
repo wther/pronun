@@ -2,7 +2,7 @@ package com.webther.pronun.voice.service;
 
 import javax.sound.sampled.AudioInputStream;
 
-import com.webther.pronun.voice.processor.SpeechInterval;
+import com.webther.pronun.voice.entity.SpeechInterval;
 
 public interface SpeechDetectionService {
 

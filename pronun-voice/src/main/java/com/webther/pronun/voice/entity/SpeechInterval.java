@@ -1,4 +1,4 @@
-package com.webther.pronun.voice.processor;
+package com.webther.pronun.voice.entity;
 
 /**
  * Speech interval entity

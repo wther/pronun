@@ -7,6 +7,7 @@ import org.junit.Test;
 import be.hogent.tarsos.dsp.AudioDispatcher;
 
 import com.webther.pronun.voice.AudioTestUtil;
+import com.webther.pronun.voice.entity.SpeechInterval;
 
 /**
  * Class testing the {@link SpeechDetector} class.

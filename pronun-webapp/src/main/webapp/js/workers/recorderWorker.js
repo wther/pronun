@@ -1,3 +1,24 @@
+/*
+ * License (MIT)
+ * Copyright © 2013 Matt Diamond
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a 
+ * copy of this software and associated documentation files (the "Software"), 
+ * to deal in the Software without restriction, including without limitation 
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+ * and/or sell copies of the Software, and to permit persons to whom the 
+ * Software is furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be 
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
+ * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+ * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
+ * OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 var recLength = 0,
   recBuffersL = [],
   recBuffersR = [],
@@ -12,7 +33,7 @@ this.onmessage = function(e){
       record(e.data.buffer);
       break;
     case 'exportWAV':
-      exportWAV(e.data.type);
+      exportWAV(e.data.type, e.data.range);
       break;
     case 'getBuffer':
       getBuffer();
@@ -33,9 +54,9 @@ function record(inputBuffer){
   recLength += inputBuffer[0].length;
 }
 
-function exportWAV(type){
-  var bufferL = mergeBuffers(recBuffersL, recLength);
-  var bufferR = mergeBuffers(recBuffersR, recLength);
+function exportWAV(type, range){
+  var bufferL = mergeBuffers(recBuffersL, recLength, range);
+  var bufferR = mergeBuffers(recBuffersR, recLength, range);
   var interleaved = interleave(bufferL, bufferR);
   var dataview = encodeWAV(interleaved);
   var audioBlob = new Blob([dataview], { type: type });
@@ -45,8 +66,9 @@ function exportWAV(type){
 
 function getBuffer() {
   var buffers = [];
-  buffers.push( mergeBuffers(recBuffersL, recLength) );
-  buffers.push( mergeBuffers(recBuffersR, recLength) );
+  var range = {from: 0.0, to: 1.0};
+  buffers.push( mergeBuffers(recBuffersL, recLength, range) );
+  buffers.push( mergeBuffers(recBuffersR, recLength, range) );
   this.postMessage(buffers);
 }
 
@@ -56,14 +78,25 @@ function clear(){
   recBuffersR = [];
 }
 
-function mergeBuffers(recBuffers, recLength){
-  var result = new Float32Array(recLength);
-  var offset = 0;
-  for (var i = 0; i < recBuffers.length; i++){
-    result.set(recBuffers[i], offset);
-    offset += recBuffers[i].length;
-  }
-  return result;
+function mergeBuffers(recBuffers, recLength, range){
+    // TODO refactor this function !!!!
+    var start = parseInt(Math.floor(recBuffers.length * range.from));
+    if(start < 0) start = 0;
+    if(start >= recBuffers.length) start = recBuffers.length;
+    
+    var end = parseInt(Math.ceil(recBuffers.length * range.to));
+    if(end < 0) end = 0;
+    if(end >= recBuffers.length) end = recBuffers.length;
+    
+    var length = end - start;
+    /// TODO refactor this function !!!!
+    var result = new Float32Array((length/recBuffers.length + 0.1)*recLength);
+    var offset = 0;
+    for (var i = 0; i < length; i++){
+      result.set(recBuffers[start + i], offset);
+      offset += recBuffers[start + i].length;
+    }
+    return result;
 }
 
 function interleave(inputL, inputR){

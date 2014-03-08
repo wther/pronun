@@ -3,6 +3,8 @@ package com.webther.pronun.voice.processor;
 import be.hogent.tarsos.dsp.AudioEvent;
 import be.hogent.tarsos.dsp.AudioProcessor;
 
+import com.webther.pronun.voice.entity.SpeechInterval;
+
 /**
  * Sound detector is an audio processor which detects the speech interval from an
  * audio sample. It assumes that the amplitude of the audio is higher during speech

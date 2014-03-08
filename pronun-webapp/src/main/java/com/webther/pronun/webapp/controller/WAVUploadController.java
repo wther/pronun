@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.webther.pronun.voice.processor.SpeechInterval;
+import com.webther.pronun.voice.entity.SpeechInterval;
 import com.webther.pronun.voice.service.SpeechDetectionService;
 import com.webther.pronun.webapp.entity.WAVUploadEntity;
 import com.webther.pronun.webapp.exception.InvalidUploadFormatException;

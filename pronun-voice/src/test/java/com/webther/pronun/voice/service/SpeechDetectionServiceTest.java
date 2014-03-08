@@ -8,7 +8,7 @@ import javax.sound.sampled.AudioSystem;
 import org.junit.Test;
 
 import com.webther.pronun.voice.AudioTestUtil;
-import com.webther.pronun.voice.processor.SpeechInterval;
+import com.webther.pronun.voice.entity.SpeechInterval;
 import com.webther.pronun.voice.service.impl.SpeechDetectionServiceImpl;
 
 /**
