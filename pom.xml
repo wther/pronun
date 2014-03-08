@@ -15,17 +15,6 @@
 		<module>pronun-webapp</module>
 	</modules>
 
-	<repositories>
-		<repository>
-			<id>google-maven-snapshot-repository</id>
-			<name>Google Maven Snapshot Repository</name>
-			<url>https://oss.sonatype.org/content/repositories/google-snapshots/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
 	<properties>
 		<build.timestamp>${maven.build.timestamp}</build.timestamp>
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
@@ -137,6 +126,31 @@
 		</resources>
 
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<inherited>false</inherited>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>mvn</executable>
+							<arguments>
+								<argument>install:install-file</argument>
+								<argument>-Dfile=${basedir}/lib/TarsosDSP-1.7.jar</argument>
+								<argument>-DgroupId=tarsosdsp</argument>
+								<argument>-DartifactId=tarsosdsp</argument>
+								<argument>-Dversion=1.7.0</argument>
+								<argument>-Dpackaging=jar</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
