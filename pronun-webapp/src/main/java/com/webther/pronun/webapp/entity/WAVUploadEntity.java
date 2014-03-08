@@ -1,4 +1,4 @@
-package com.webther.pronun.webapp.model;
+package com.webther.pronun.webapp.entity;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
  * Model entity for uploaded file. Normally it contains a <code>byte[]</code>
  * array of a WAV file.
  */
-public class WAVUploadData {
+public class WAVUploadEntity {
 
     /**
      * SessionId identifying the source of the file
@@ -34,7 +34,7 @@ public class WAVUploadData {
     /**
      * Initializes model
      */
-    public WAVUploadData(String sessionId, String puzzleId, AudioInputStream audioData) {
+    public WAVUploadEntity(String sessionId, String puzzleId, AudioInputStream audioData) {
         this.sessionId = sessionId;
         this.puzzleId = puzzleId;
         this.audioData = audioData;
@@ -42,7 +42,7 @@ public class WAVUploadData {
     /**
      * Initializes model
      */
-    public WAVUploadData(String sessionId, String puzzleId, MultipartFile file) throws UnsupportedAudioFileException, IOException {
+    public WAVUploadEntity(String sessionId, String puzzleId, MultipartFile file) throws UnsupportedAudioFileException, IOException {
         this.sessionId = sessionId;
         this.puzzleId = puzzleId;
         this.audioData =  AudioSystem.getAudioInputStream(new BufferedInputStream(file.getInputStream()));

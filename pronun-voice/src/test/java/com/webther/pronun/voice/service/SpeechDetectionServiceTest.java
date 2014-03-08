@@ -9,9 +9,10 @@ import org.junit.Test;
 
 import com.webther.pronun.voice.AudioTestUtil;
 import com.webther.pronun.voice.processor.SpeechInterval;
+import com.webther.pronun.voice.service.impl.SpeechDetectionServiceImpl;
 
 /**
- * Class testing the {@link SpeechDetectionService}
+ * Class testing the {@link SpeechDetectionServiceImpl}
  */
 public class SpeechDetectionServiceTest {
 
@@ -26,7 +27,7 @@ public class SpeechDetectionServiceTest {
     public void thatServiceReadsByteArray() throws Exception {
 
         // Arrange
-        SpeechDetectionService target = new SpeechDetectionService();
+        SpeechDetectionService target = new SpeechDetectionServiceImpl();
         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(AudioTestUtil.getSimpleAudioFile());
 
         // Act

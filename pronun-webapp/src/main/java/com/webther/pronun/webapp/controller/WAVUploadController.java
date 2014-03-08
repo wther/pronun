@@ -19,8 +19,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.webther.pronun.voice.processor.SpeechInterval;
 import com.webther.pronun.voice.service.SpeechDetectionService;
+import com.webther.pronun.webapp.entity.WAVUploadEntity;
 import com.webther.pronun.webapp.exception.InvalidUploadFormatException;
-import com.webther.pronun.webapp.model.WAVUploadData;
 
 /**
  * Controller for uploading files. These files are sound streams captured by the
@@ -76,7 +76,7 @@ public class WAVUploadController {
         MultipartFile file = request.getFileMap().values().iterator().next();
         try {
 
-            WAVUploadData entity = new WAVUploadData(sessionId, puzzleId, file);
+            WAVUploadEntity entity = new WAVUploadEntity(sessionId, puzzleId, file);
             SpeechInterval interval = speechService.getIntervalMeta(entity.getAudioStream());
             return new ResponseEntity<SpeechInterval>(interval, HttpStatus.OK);
             
