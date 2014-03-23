@@ -24,8 +24,8 @@ public class PuzzleControllerTest extends BaseControllerTest {
     public void thatDownloadContentTypeIsWav() throws Exception {
 
         // Act & Assert
-        mockMvc.perform(get("/puzzle/preventive"))
-                .andExpect(jsonPath("$.puzzleId", is("preventive")));
+        mockMvc.perform(get("/puzzle/deterrent"))
+                .andExpect(jsonPath("$.puzzleCode", is("deterrent")));
     }
 
 }

@@ -32,6 +32,11 @@ public class PuzzleController {
     @RequestMapping(value = "/puzzle/{puzzle_id}", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity<PuzzleEntity> getPuzzle(@PathVariable("puzzle_id") String puzzleId, HttpServletResponse response) {
         LOGGER.debug("Puzzle requested: {}", puzzleId);
-        return new ResponseEntity<PuzzleEntity>(service.getPuzzle(puzzleId), HttpStatus.OK);
+        PuzzleEntity result = new PuzzleEntity();
+        result.setPuzzleId(1L);
+        result.setPuzzleCode("deterrent");
+        result.setPhoneticText("dɪˈtɛr(ə)nt");
+        result.setSamplePath("/samples/" + puzzleId + ".mp3");
+        return new ResponseEntity<PuzzleEntity>(result, HttpStatus.OK);
     }
 }
