@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.webther.pronun.voice.entity.PuzzleEntity;
-import com.webther.pronun.voice.service.PuzzleService;
+import com.webther.pronun.data.entity.PuzzleEntity;
+import com.webther.pronun.data.service.PuzzleService;
 
 /**
  * Controller using the {link {@link PuzzleService}

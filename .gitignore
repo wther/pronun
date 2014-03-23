@@ -20,3 +20,9 @@
 /pronun-voice/.settings/org.eclipse.wst.common.component
 /pronun-voice/.settings/org.eclipse.wst.common.project.facet.core.xml
 /pronun-voice/.settings
+/pronun-data/.settings/*.prefs
+/pronun-data/.settings/*.component
+/pronun-data/.settings/*.xml
+/pronun-data/.classpath
+/pronun-data/.gitignore
+/pronun-data/.project

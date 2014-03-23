@@ -4,7 +4,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import com.webther.pronun.voice.service.PuzzleService;
+import com.webther.pronun.voice.entity.SpeechInterval;
 
 /**
  * Utility class providing sample files
@@ -23,7 +23,7 @@ public class AudioTestUtil {
      * Reads Audio file from resources containing a native audio sample
      */
     public static File getNativeAudioSample(String fileName){
-        return getResourceFile("/samples/" + fileName, PuzzleService.class);
+        return getResourceFile("/samples/" + fileName, SpeechInterval.class);
     }
     
     /**

@@ -1,6 +1,6 @@
-package com.webther.pronun.voice.service;
+package com.webther.pronun.data.service;
 
-import com.webther.pronun.voice.entity.PuzzleEntity;
+import com.webther.pronun.data.entity.PuzzleEntity;
 
 /**
  * Service to access Puzzle entities
@@ -13,5 +13,11 @@ public interface PuzzleService {
      * @return
      */
     PuzzleEntity getPuzzle(String puzzleId);
+    
+    /**
+     * Saves puzzle
+     * @param puzzle
+     */
+    void save(PuzzleEntity puzzle);
     
 }
