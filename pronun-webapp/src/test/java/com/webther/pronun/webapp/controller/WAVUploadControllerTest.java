@@ -35,6 +35,28 @@ public class WAVUploadControllerTest extends BaseControllerTest {
                         .header(WAVUploadController.PUZZLE_ID_HEADER, "often")).andExpect(
                 status().is(HttpStatus.OK.value()));
     }
+    
+    /**
+     * Test case: Uploading multi-part (audio/wav) content to
+     * <code>/api/voice</code>
+     * 
+     * Expected: Response's status is {@link HttpStatus.OK}
+     * 
+     * @throws Exception
+     */
+    @Test
+    public void thatInvalidWavFileThrowsException() throws Exception {
+
+        // Arrange
+        MockMultipartFile voiceFile = new MockMultipartFile("content", "voice.wav", "audio/wav", "123456789".getBytes());
+
+        // Act & Assert
+        mockMvc.perform(
+                MockMvcRequestBuilders.fileUpload(WAVUploadController.URI).file(voiceFile)
+                        .header(WAVUploadController.SESSION_ID_HEADER, "session123")
+                        .header(WAVUploadController.PUZZLE_ID_HEADER, "often")).andExpect(
+                        status().is(HttpStatus.BAD_REQUEST.value()));
+    }
 
     /**
      * Test case: Uploading <strong>two</strong> multipart (audio/wav) files

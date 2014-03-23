@@ -4,6 +4,10 @@ import javax.sound.sampled.AudioInputStream;
 
 import com.webther.pronun.voice.entity.SpeechInterval;
 
+/**
+ * Service for detecting {@link SpeechInterval} from an {@link AudioInputStream}
+ * data
+ */
 public interface SpeechDetectionService {
 
     /**

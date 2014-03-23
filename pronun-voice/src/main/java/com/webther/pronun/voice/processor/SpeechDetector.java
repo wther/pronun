@@ -1,5 +1,8 @@
 package com.webther.pronun.voice.processor;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import be.hogent.tarsos.dsp.AudioEvent;
 import be.hogent.tarsos.dsp.AudioProcessor;
 
@@ -12,6 +15,9 @@ import com.webther.pronun.voice.entity.SpeechInterval;
  */
 public class SpeechDetector implements AudioProcessor {
 
+    /** Logger instance */
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpeechDetector.class);
+    
     /**
      * Threshold over which sound is considered speech
      */
@@ -71,6 +77,7 @@ public class SpeechDetector implements AudioProcessor {
                 wait();
             } catch (InterruptedException e) {
                 // Check the while condition again
+            	LOGGER.trace("Interupted", e);
             }
         }
 
@@ -91,7 +98,6 @@ public class SpeechDetector implements AudioProcessor {
                 this.state = State.DETECTING_SPEECH;
             }
         }
-
         else if (state == State.DETECTING_SPEECH) {
             if (level < THRESHOLD) {
                 SpeechInterval candidate = new SpeechInterval(lastSpeechStart, audioEvent.getTimeStamp());

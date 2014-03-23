@@ -28,7 +28,9 @@ public class SpeechDetectionServiceImpl implements SpeechDetectionService {
 
             SpeechDetector detector = new SpeechDetector();
             dispatcher.addAudioProcessor(detector);
-            dispatcher.run();
+            
+            Thread dispactherThread= new Thread(dispatcher);
+            dispactherThread.start();
 
             return detector.waitForBestInterval();
 

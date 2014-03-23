@@ -36,6 +36,9 @@ public class SpeechInterval {
         return speechEnd - speechStart;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "SpeechInterval [speechStart=" + speechStart + ", speechEnd=" + speechEnd + "]";

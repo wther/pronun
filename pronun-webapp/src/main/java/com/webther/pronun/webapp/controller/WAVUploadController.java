@@ -1,6 +1,8 @@
 package com.webther.pronun.webapp.controller;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.sound.sampled.UnsupportedAudioFileException;
 
@@ -10,10 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -53,6 +57,16 @@ public class WAVUploadController {
     @Autowired
     private SpeechDetectionService speechService;
 
+    /**
+     * POST command to upload WAV content 
+     * 
+     * @param sessionId Session id for the user
+     * @param puzzleId Puzzle id, for which solution is uploaded
+     * @param request Request containing the WAV data
+     * @return JSON content of the speech interval's analysis
+     * 
+     * @throws InvalidUploadFormatException
+     */
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody
     ResponseEntity<SpeechInterval> upload(@RequestHeader(SESSION_ID_HEADER) String sessionId,
@@ -72,19 +86,34 @@ public class WAVUploadController {
             return new ResponseEntity<SpeechInterval>(HttpStatus.BAD_REQUEST);
         }
 
-        // Process all files to be a {@link WAVFileUpload}
+        // Process all files to be a {@link WAVFileUpload
         MultipartFile file = request.getFileMap().values().iterator().next();
         try {
-
-            WAVUploadEntity entity = new WAVUploadEntity(sessionId, puzzleId, file);
+        	InputStream audioStream = new BufferedInputStream(file.getInputStream());
+            WAVUploadEntity entity = new WAVUploadEntity(sessionId, puzzleId, audioStream);
+            
             SpeechInterval interval = speechService.getIntervalMeta(entity.getAudioStream());
             return new ResponseEntity<SpeechInterval>(interval, HttpStatus.OK);
-            
         } catch (IOException e) {
             throw new InvalidUploadFormatException("Failed to read upload content", e);
         } catch (UnsupportedAudioFileException e) {
             throw new InvalidUploadFormatException("Failed to parse audio", e);
         }
+    }
+    
+    /**
+     * Exception handler for {@link InvalidUploadFormatException} 
+     * 
+     * Triggered when:
+     * <ul>
+     * 	<li>Uploaded content isn't valid WAV</li>
+     *  <li>Upload is not a single file</li>
+     * </ul>
+     */
+    @ResponseStatus(value=HttpStatus.BAD_REQUEST, reason="Invalid upload format")
+    @ExceptionHandler(InvalidUploadFormatException.class)
+    public String invalidUploadFormat() {
+    	return "{\"error\":\"Invalid upload format\"}";
     }
 
     /**

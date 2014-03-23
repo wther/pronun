@@ -1,7 +1,5 @@
 package com.webther.pronun.webapp.controller;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +27,13 @@ public class PuzzleController {
     @Autowired
     private PuzzleService service;
 
+    /**
+     * GET command the get puzzle information by puzzle code
+     * @param puzzleId Puzzle's code
+     * @return JSON containing puzzle meta and path to the mp3 resource
+     */
     @RequestMapping(value = "/puzzle/{puzzle_id}", method = RequestMethod.GET)
-    public @ResponseBody ResponseEntity<PuzzleEntity> getPuzzle(@PathVariable("puzzle_id") String puzzleId, HttpServletResponse response) {
+    public @ResponseBody ResponseEntity<PuzzleEntity> getPuzzle(@PathVariable("puzzle_id") String puzzleId) {
         LOGGER.debug("Puzzle requested: {}", puzzleId);
         PuzzleEntity result = new PuzzleEntity();
         result.setPuzzleId(1L);

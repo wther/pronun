@@ -47,7 +47,15 @@ public class DataConfig {
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		vendorAdapter.setGenerateDdl(true);
 		emf.setJpaVendorAdapter(vendorAdapter);
-		emf.setJpaProperties(additionalProperties());
+
+		final Properties properties = new Properties() {
+			{
+				setProperty("hibernate.hbm2ddl.auto", "create-drop");
+				setProperty("hibernate.dialect",
+						"org.hibernate.dialect.HSQLDialect");
+			}
+		};
+		emf.setJpaProperties(properties);
 
 		return emf;
 	}
@@ -60,20 +68,5 @@ public class DataConfig {
 		JpaTransactionManager manager = new JpaTransactionManager();
 		manager.setEntityManagerFactory(this.entityManagerFactory().getObject());
 		return manager;
-	}
-
-	/**
-	 * Additional properties for the entityManagerFactory
-	 * 
-	 * @return
-	 */
-	private Properties additionalProperties() {
-		return new Properties() {
-			{
-				setProperty("hibernate.hbm2ddl.auto", "create-drop");
-				setProperty("hibernate.dialect",
-						"org.hibernate.dialect.HSQLDialect");
-			}
-		};
 	}
 }
