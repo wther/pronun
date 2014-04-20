@@ -16,7 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(locations = "classpath:/spring/appServlet/mvc-applicationContext.xml")
-public abstract class BaseControllerTest {
+public abstract class BaseWebappTest {
 
     protected MockMvc mockMvc;
 

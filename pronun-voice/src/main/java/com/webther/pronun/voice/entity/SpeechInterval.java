@@ -32,6 +32,10 @@ public class SpeechInterval {
         return speechEnd;
     }
 
+    /**
+     * Length of the interval in seconds
+     * @return
+     */
     public double getInterval(){
         return speechEnd - speechStart;
     }

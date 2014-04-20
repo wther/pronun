@@ -12,7 +12,7 @@ require.config({
     }
 });
 
-require(['jquery', 'modules/user'], function($, user) {
+require(['jquery', 'modules/user', 'modules/native'], function($, user, native) {
     
     var userButtonClick = function(){
         user.config.audioContollerParam = 'userAudio';
@@ -39,4 +39,8 @@ require(['jquery', 'modules/user'], function($, user) {
     $('#userReplayButton').addClass('disabled');
     
     $('#nativeReplayButton').unbind(nativeButtonClick).click(nativeButtonClick);
+    
+    $(function(){
+    	native.fetchPuzzles();
+    });
 });

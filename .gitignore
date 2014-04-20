@@ -26,3 +26,10 @@
 /pronun-data/.classpath
 /pronun-data/.gitignore
 /pronun-data/.project
+/pronun-loader-plugin/.classpath
+/pronun-loader-plugin/.gitignore
+/pronun-loader-plugin/.project
+/pronun-loader-plugin/.settings/org.eclipse.core.resources.prefs
+/pronun-loader-plugin/.settings/org.eclipse.jdt.core.prefs
+/pronun-loader-plugin/.settings/org.eclipse.m2e.core.prefs
+/pronun-loader-plugin/.settings/org.sonar.ide.eclipse.core.prefs

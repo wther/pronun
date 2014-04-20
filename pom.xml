@@ -19,12 +19,16 @@
 	<properties>
 		<build.timestamp>${maven.build.timestamp}</build.timestamp>
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
-		<spring.version>4.0.2.RELEASE</spring.version>
+		<spring.version>4.0.3.RELEASE</spring.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<slf4j.version>1.7.6</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
 		<jackson.version>1.9.10</jackson.version>
 		<tarsos.version>1.7</tarsos.version>
+		<spring.data.version>1.5.1.RELEASE</spring.data.version>
+		<hibernate.version>4.1.0.Final</hibernate.version>
+		<hibernate.persistence.version>1.0.0.Final</hibernate.persistence.version>
+		<hsqldb.version>2.2.8</hsqldb.version>
 	</properties>
 
 	<dependencyManagement>
@@ -46,11 +50,12 @@
 				<artifactId>pronun-data</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+
 			<!-- Servlet -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
-				<artifactId>servlet-api</artifactId>
-				<version>2.5</version>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>3.0.1</version>
 				<scope>provided</scope>
 			</dependency>
 
@@ -96,6 +101,12 @@
 				<artifactId>jstl</artifactId>
 				<version>1.2</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring.version}</version>
+				<scope>test</scope>
+			</dependency>
 
 			<!-- Logging -->
 			<dependency>
@@ -133,6 +144,79 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-orm</artifactId>
 				<version>${spring.version}</version>
+			</dependency>
+
+
+			<!-- Data -->
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-jpa</artifactId>
+				<version>${spring.data.version}</version>
+			</dependency>
+
+			<!-- Hibernate -->
+			<dependency>
+				<groupId>org.hibernate.javax.persistence</groupId>
+				<artifactId>hibernate-jpa-2.0-api</artifactId>
+				<version>${hibernate.persistence.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${hibernate.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<!-- HSQL embedded database -->
+			<dependency>
+				<groupId>commons-dbcp</groupId>
+				<artifactId>commons-dbcp</artifactId>
+				<version>1.2.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>${hsqldb.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+
+			<!-- Testing -->
+			<dependency>
+				<groupId>org.hamcrest</groupId>
+				<artifactId>hamcrest-all</artifactId>
+				<version>1.3</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.11</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>1.8.4</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.jayway.jsonpath</groupId>
+				<artifactId>json-path-assert</artifactId>
+				<version>0.9.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.4</version>
+			</dependency>
+
+			<dependency>
+				<groupId>net.sf.opencsv</groupId>
+				<artifactId>opencsv</artifactId>
+				<version>2.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -199,6 +283,25 @@
 				<configuration>
 					<war>${basedir}/pronun-webapp/target/pronun.war</war>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.webther.pronun</groupId>
+				<artifactId>pronun-loader-plugin</artifactId>
+				<version>1.0-SNAPSHOT</version>
+				<inherited>false</inherited>
+				<configuration>
+					<directory>${basedir}/pronun-webapp/src/main/webapp/samples/</directory>
+					<csvFile>${basedir}/pronun-webapp/src/main/resources/entityList.csv</csvFile>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>load</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 /**
  * Class testing the {@link WAVUploadController} class.
  */
-public class WAVUploadControllerTest extends BaseControllerTest {
+public class WAVUploadControllerTest extends BaseWebappTest {
     
     /**
      * Test case: Uploading multi-part (audio/wav) content to

@@ -22,51 +22,50 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 @ComponentScan(basePackages = { "com.webther.pronun.data" })
 public class DataConfig {
 
-	/**
-	 * In-memory dataSource
-	 */
-	@Bean(destroyMethod = "close", name = "dataSource")
-	public DataSource dataSource() {
-		BasicDataSource ds = new BasicDataSource();
-		ds.setDriverClassName("org.hsqldb.jdbcDriver");
-		ds.setUrl("jdbc:hsqldb:mem:pronun-data");
-		ds.setUsername("sa");
-		ds.setPassword("");
-		return ds;
-	}
+    /**
+     * In-memory dataSource
+     */
+    @Bean(destroyMethod = "close", name = "dataSource")
+    public DataSource dataSource() {
+        BasicDataSource ds = new BasicDataSource();
+        ds.setDriverClassName("org.hsqldb.jdbcDriver");
+        ds.setUrl("jdbc:hsqldb:mem:pronun-data");
+        ds.setUsername("sa");
+        ds.setPassword("");
+        return ds;
+    }
 
-	/**
-	 * Entity manager factory
-	 */
-	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
-		emf.setDataSource(dataSource());
-		emf.setPackagesToScan("com.webther.pronun.data.entity");
+    /**
+     * Entity manager factory
+     */
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+        emf.setDataSource(dataSource());
+        emf.setPackagesToScan("com.webther.pronun.data.entity");
 
-		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-		vendorAdapter.setGenerateDdl(true);
-		emf.setJpaVendorAdapter(vendorAdapter);
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setGenerateDdl(true);
+        emf.setJpaVendorAdapter(vendorAdapter);
 
-		final Properties properties = new Properties() {
-			{
-				setProperty("hibernate.hbm2ddl.auto", "create-drop");
-				setProperty("hibernate.dialect",
-						"org.hibernate.dialect.HSQLDialect");
-			}
-		};
-		emf.setJpaProperties(properties);
+        final Properties properties = new Properties() {
+            {
+                setProperty("hibernate.hbm2ddl.auto", "create-drop");
+                setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+            }
+        };
+        emf.setJpaProperties(properties);
 
-		return emf;
-	}
+        return emf;
+    }
 
-	/**
-	 * Transaction manager
-	 */
-	@Bean(name = "transactionManager")
-	public JpaTransactionManager getTransactionManager() throws SQLException {
-		JpaTransactionManager manager = new JpaTransactionManager();
-		manager.setEntityManagerFactory(this.entityManagerFactory().getObject());
-		return manager;
-	}
+    /**
+     * Transaction manager
+     */
+    @Bean(name = "transactionManager")
+    public JpaTransactionManager getTransactionManager() throws SQLException {
+        JpaTransactionManager manager = new JpaTransactionManager();
+        manager.setEntityManagerFactory(this.entityManagerFactory().getObject());
+        return manager;
+    }
 }

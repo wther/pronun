@@ -18,11 +18,12 @@ Alternatively you may deploy the war file in *pronun-webapp/target/* to a Tomcat
 What's done so far?
 -------------------
 
-What a little over a month into the development, here's what's done so far. 
+What a little over two months into the development, here's what's done so far. 
+Screenshot available here: https://github.com/wther/pronun/tree/master/docs/Screenshot.png
 
- - Skeleton of the **Java server** is implemented, including **some voice processing** functionality. No database yet.
- - Client side scripts for **speech capturing**, **speech playback** and native sample playback. But only for one sample. 
- - Basically you're able to train your English pronuncation of the word **deterrent**.
+ - Skeleton of the **Java server** is implemented, including **some voice processing** functionality. In memory database serves puzzles.
+ - Client side scripts for **speech capturing**, **speech playback** and native sample playback.
+ - Maven plugin **downloads phonetic text and native voice sample** for a few (cc. 60) samples, and these are available when launching the application.
 
 If you launch the application you will see three buttons (play native sample, capture your speech and playback your voice), try them :)
 
@@ -56,15 +57,3 @@ Inspirations
  * Google's speech recognition has proven that good quality **speech to word** recognition is possible. (Try: https://www.google.com/intl/en/chrome/demos/speech.html)
  * There are a few open source libraries offering **speech to phoneme** or **speech to text** conversion (http://cmusphinx.sourceforge.net/wiki/)
  * Accents, pronunciation, speech recognition and sound processing is a widely researched field
- 
-
-
-
-
-
-
-
-
- 
-
-

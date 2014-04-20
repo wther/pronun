@@ -17,11 +17,11 @@ public class SpeechDetector implements AudioProcessor {
 
     /** Logger instance */
     private static final Logger LOGGER = LoggerFactory.getLogger(SpeechDetector.class);
-    
+
     /**
      * Threshold over which sound is considered speech
      */
-    //TODO Uses constant threshold, this should be adaptive
+    // TODO Uses constant threshold, this should be adaptive
     private static float THRESHOLD = -70; // dB
 
     /**
@@ -77,7 +77,7 @@ public class SpeechDetector implements AudioProcessor {
                 wait();
             } catch (InterruptedException e) {
                 // Check the while condition again
-            	LOGGER.trace("Interupted", e);
+                LOGGER.trace("Interupted", e);
             }
         }
 
@@ -97,8 +97,7 @@ public class SpeechDetector implements AudioProcessor {
                 lastSpeechStart = audioEvent.getTimeStamp();
                 this.state = State.DETECTING_SPEECH;
             }
-        }
-        else if (state == State.DETECTING_SPEECH) {
+        } else if (state == State.DETECTING_SPEECH) {
             if (level < THRESHOLD) {
                 SpeechInterval candidate = new SpeechInterval(lastSpeechStart, audioEvent.getTimeStamp());
                 if (isBetterInterval(candidate)) {
