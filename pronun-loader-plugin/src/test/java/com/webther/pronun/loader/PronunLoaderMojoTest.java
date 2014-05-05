@@ -102,13 +102,19 @@ public class PronunLoaderMojoTest {
     public void thatReadsCsvFile() throws Exception {
         
         final String path = outputDir + "content.csv";
+        final String outFile = outputDir + "entityList.csv";
         FileUtils.copyFile(new File("src/test/resources/content.csv"), new File(path));
         
         PronunLoaderMojo target = new PronunLoaderMojo();
         target.setCsvFile(path);
-        target.setOutputDir(outputDir);
+        target.setDirectory(outputDir);
+        target.setOutFile(outFile);
         
         // Act
         target.execute();
+        
+        // Assert
+        File file = new File(outFile);
+        assertTrue("File not created", file.exists());
     }
 }

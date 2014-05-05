@@ -49,6 +49,12 @@ public class PronunLoaderMojo extends AbstractMojo {
     private String csvFile;
     
     /**
+     * File where the CSV configuration of the entity meta information will be written
+     */
+    @Parameter
+    private String outFile;
+    
+    /**
      * Entry point of the plugin
      */
 	public void execute() throws MojoExecutionException, MojoFailureException {
@@ -77,7 +83,7 @@ public class PronunLoaderMojo extends AbstractMojo {
             }
             
             // Persist
-            CsvFileLoader.writeEntitiesToFile(csvFile, fileContents);
+            CsvFileLoader.writeEntitiesToFile(outFile, fileContents);
 
         } catch (IOException e) {
             throw new MojoExecutionException("Failed to open CSV file", e);
@@ -127,11 +133,15 @@ public class PronunLoaderMojo extends AbstractMojo {
 	    return true;
 	}
 
-    public void setOutputDir(String outputDir) {
-        this.directory = outputDir;
+    public void setDirectory(String directory) {
+        this.directory = directory;
     }
 
     public void setCsvFile(String csvFile) {
         this.csvFile = csvFile;
+    }
+
+    public void setOutFile(String outFile) {
+        this.outFile = outFile;
     }
 }

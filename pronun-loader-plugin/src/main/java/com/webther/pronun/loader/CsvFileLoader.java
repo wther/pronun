@@ -1,5 +1,6 @@
 package com.webther.pronun.loader;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -95,6 +96,11 @@ public class CsvFileLoader {
 	public static void writeEntitiesToFile(String filePath, List<PuzzleEntity> entities) throws IOException{
 	    CSVWriter writer = null;
 	    try {
+	        File file = new File(filePath);
+	        if(!file.exists()){
+	            file.createNewFile();
+	        }
+	        
 	        writer = new CSVWriter(new FileWriter(filePath), ',', '\"');
 	        writer.writeNext(new String[] {"Words", "Phonetic"} );
 	        for(PuzzleEntity row : entities){
