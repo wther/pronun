@@ -12,6 +12,7 @@
 		<module>pronun-voice</module>
 		<module>pronun-data</module>
 		<module>pronun-webapp</module>
+		<module>pronun-loader</module>
 	</modules>
 
 	<properties>
