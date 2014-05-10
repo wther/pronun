@@ -50,7 +50,7 @@ public class PuzzleServiceTest extends BaseDataServiceTest {
     	
     	// Assert
     	assertNotNull(result);
-    	assertEquals(puzzleCode, subject.getPuzzleCode());
+    	assertEquals(puzzleCode, result.getPuzzleCode());
     }
     
     /**

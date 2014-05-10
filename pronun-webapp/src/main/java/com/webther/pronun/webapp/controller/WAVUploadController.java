@@ -64,14 +64,12 @@ public class WAVUploadController {
      * @param puzzleId Puzzle id, for which solution is uploaded
      * @param request Request containing the WAV data
      * @return JSON content of the speech interval's analysis
-     * 
-     * @throws InvalidUploadFormatException
      */
     @RequestMapping(method = RequestMethod.POST)
-    public @ResponseBody
-    ResponseEntity<SpeechInterval> upload(@RequestHeader(SESSION_ID_HEADER) String sessionId,
-            @RequestHeader(PUZZLE_ID_HEADER) String puzzleId, MultipartHttpServletRequest request)
-            throws InvalidUploadFormatException {
+    public @ResponseBody ResponseEntity<SpeechInterval> upload(
+           @RequestHeader(SESSION_ID_HEADER) String sessionId,
+           @RequestHeader(PUZZLE_ID_HEADER) String puzzleId, 
+           MultipartHttpServletRequest request) throws InvalidUploadFormatException {
 
         // Parse content
         LOGGER.info("Content uploaded by {} for {}", sessionId, puzzleId);
@@ -89,9 +87,9 @@ public class WAVUploadController {
         // Process all files to be a {@link WAVFileUpload
         MultipartFile file = request.getFileMap().values().iterator().next();
         try {
-        	InputStream audioStream = new BufferedInputStream(file.getInputStream());
+            InputStream audioStream = new BufferedInputStream(file.getInputStream());
             WAVUploadEntity entity = new WAVUploadEntity(sessionId, puzzleId, audioStream);
-            
+
             SpeechInterval interval = speechService.getIntervalMeta(entity.getAudioStream());
             return new ResponseEntity<SpeechInterval>(interval, HttpStatus.OK);
         } catch (IOException e) {

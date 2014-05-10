@@ -11,7 +11,7 @@ Before going into the technical details of the Java toolset I used, I'd like to 
 
 ### Motivations
 
-In fact the biggest motivating factor is that English is becoming more and more the global language. Almost 40% of people in the European Union speak English as a second language, and this percentage is even higher among the young population [1]. The incresing use of the English language globally drives an incresing demand for educational software.
+In fact the biggest motivating factor is that English is becoming more and more the global language. Almost 40% of people in the European Union speak English as a second language, and this percentage is even higher among the young population [1]. The increasing use of the English language globally drives an increasing demand for educational software.
 
 Secondly, even though English pronunciation may be harder to master then vocabulary or grammar, it might be the most important part of oral communication. A bad pronunciation not only gives away the fact that one isn't a native speaker immediately, it's often considered an indicator of a bad English skill all together.
 
@@ -19,13 +19,13 @@ Additionally even native speakers may be interested in learning new accents, the
 
 ### English pronunciations
 
-The English language, its accents and pronunciations is a widely researched field of linguistics. I have found that the best method to improve one's pronunciation is considered to be that one records and replays his own voice while trying to pronuounce a phrase [2]. This is why I'll concentrate the application's main functionality around these use cases.
+The English language, its accents and pronunciations is a widely researched field of linguistics. I have found that the best method to improve one's pronunciation is considered to be that one records and replays his own voice while trying to pronounce a phrase [2]. This is why I'll concentrate the application's main functionality around these use cases.
 
 1. Users can record their voice, and play it back
 2. Users can fetch native samples from the server and play them
 3. Users can request meta-information on native phrase samples
 4. Users can select certain native samples based on the speaker's profile (region of origin, sex, etc.)
-5. Users should have feedback on how well they have pronunced a certain phrase
+5. Users should have feedback on how well they have pronounced a certain phrase
 
 Java Enterprise Edition
 -----------------------
@@ -38,19 +38,19 @@ The Java EE platform provides an API and runtime environment for large-scale, mu
 
 Two-tier, thick-client applications, with separated business logic and data access layers are easier develop but harder to maintain as any change in the business logic has to be deployed to the client. A more maintainable solution, the three-tiered applications is when the server hosts presentation layer [4]. 
 
-Modern web applications have web-enabled their services in the business logic layer. Using the browser's client-side script languages like Javascript takes the burden of rendering from the server, and only the rendering scripts have to be moved to the client once. Client side scripts are not only capable of more sophisticated rendering, like animating or asynchronious communication with the server, but they can take provide better scalability.
+Modern web applications have web-enabled their services in the business logic layer. Using the browser's client-side script languages like Javascript takes the burden of rendering from the server, and only the rendering scripts have to be moved to the client once. Client side scripts are not only capable of more sophisticated rendering, like animating or asynchronous communication with the server, but they can take provide better scalability.
 
 ### Enterprise Java Beans
 
-Almost any Java object can be treated as bean. Beans are contextual, meaning that they are instatiated and managed by the stateful context that they belong to. 
+Almost any Java object can be treated as bean. Beans are contextual, meaning that they are instantiated and managed by the state full context that they belong to. 
 
-Beans have a type and a qualifier to distinguish themself from other beans of the same type. Beans have a scope, which determines their lifecyle, singleton beans are application scoped, other beans can be transaction scoped, session scoped, etc. [5]
+Beans have a type and a qualifier to distinguish themself from other beans of the same type. Beans have a scope, which determines their life cycle, singleton beans are application scoped, other beans can be transaction scoped, session scoped, etc. [5]
 
-The main advantage of beans is their ease of use. If they depend on other beans, their dependencies will be automatically injected from the container. This not only elliminates the need to initialize business objects in the code, but helps to decouple the application modules. As dependecies can be injected using their type, the modules will not depend on the implementation of an interface as long as one is found in the bean container.
+The main advantage of beans is their ease of use. If they depend on other beans, their dependencies will be automatically injected from the container. This not only eliminates the need to initialize business objects in the code, but helps to decouple the application modules. As dependencies can be injected using their type, the modules will not depend on the implementation of an interface as long as one is found in the bean container.
 
 ### Java Persistence API
 
-The Java Persistence API provides a library for persisting POJOs (Plain Old Java Object). By providing the appropriate annotiations for the class and its fields, it takes care of persisting and reading them from relation databases. This doesn't only come with all the advantages of object-relational mapping, but also decouples the business layer from the actual database used.
+The Java Persistence API provides a library for persisting POJOs (Plain Old Java Object). By providing the appropriate annotations for the class and its fields, it takes care of persisting and reading them from relation databases. This doesn't only come with all the advantages of object-relational mapping, but also decouples the business layer from the actual database used.
 
 ### Summary
 
@@ -80,6 +80,7 @@ Each Maven project has to define the Project Object Model (pom) file at the proj
     		<module>pronun-voice</module>
     		<module>pronun-data</module>
     		<module>pronun-webapp</module>
+            <module>pronun-loader</module>
     	</modules>
     	....
     	
@@ -107,7 +108,7 @@ When building the project, it first builds all its modules and it tries to resol
 
 For functionality not provided by Maven out-of-the box it's necessary to use plugins. For example, the Pronuncation Trainer application depends on the TarsosDSP voice processing library. It can't be expected that its deployed in the local Maven repository on the build machine and it's not in any central Maven repository either. 
 
-In this case I have used the **exec-maven-plugin** to deploy the JAR file in the local repository before the compilation phase. Adding the following plugin definition to the POM file will run the **maven install:install-file** command in the validation phase.
+In this case I have used the **exec-maven-plugin** to deploy the JAR file in the local repository before the compilation phase. Adding the following plugin definition to the POM file will run the **maven install:install-file** command just before compiling the modules and running the defined tests.
 
     <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -137,7 +138,7 @@ In this case I have used the **exec-maven-plugin** to deploy the JAR file in the
 
 ### Custom plugins
 
-As one of the main uses cases of the pronuncation trainer application is that the users should be able to listen to native samples. As the development of the application is already in the already stages I wanted it not to depend on a database, I've implemented a custom Maven plugin which gathers the samples during the packaging phase of the build. 
+As one of the main uses cases of the pronunciation trainer application is that the users should be able to listen to native samples. As the development of the application is already in the early stages I wanted it not to depend on an existing database, so I've implemented a custom Maven plugin which gathers the samples during the packaging phase of the build. 
 
 This plugin requires a file containing comma separated values of the native samples to be gathered, and downloads their native samples and their international phonetaic alphabet (ipa) representation into directory and file specified. As you'll see this directory is specified to be the **webapp** folder, which is going to be added to the web archive assembled by Maven.
 
@@ -161,13 +162,68 @@ This plugin requires a file containing comma separated values of the native samp
     	</executions>
     </plugin>
 
+### Conclusion 
+
+By properly configuring Maven I've managed to simplify the compilation, verification and deployment of the application, meaning that by issuing a few simple commands the development environment can be duplicated in any machine running JVM. 
+
+Spring Framework
+----------------
+
+Spring Framework is an open source application initially aimed for the Java platform. It extends the Java EE API and it also addresses the difficulties of developing complex, scalable, multi-tier applications. 
+
+The Java EE platform's Java Beans, the Java Persistence API, Java EE's component based structure and other popular features were already a huge success, some of its difficulties have forced the development community to look for alternatives. The platform's complexity has lead to lot of unnecessary boilerplate code to be written, the fact that Java EE components run inside the servlet container has made test-drive development difficult and the misuses of distributed objects have often led to even a simple application not performing to its desired level [4].
+
+### Inversion of Control
+
+The Spring Inversion of Control container is the heart of the framework. It's principle is the custom-written code portions receive the control from the core library, in it's not the custom-written code which invokes the library. 
+
+For example in case the Pronunciation Trainer application, we implement various REST controllers which communicate with the client side scripts. One of which is responsible for processing sound samples recorded by the user's microphone and returning the interval of time where actual speech was detected. 
+
+In this case by configuring Spring to scan for annotated Spring Beans in a specified package, the core will process the received HTTP message and invoke the custom controller implementation with the desired arguments.
+
+    @Controller
+    @RequestMapping("/voice")
+    public class WAVUploadController {
+        ...
+        @RequestMapping(method = RequestMethod.POST)
+        public @ResponseBody ResponseEntity<SpeechInterval> upload(
+                @RequestHeader("X-Voice-Session") String sessionId,
+                @RequestHeader("X-Puzzle-Id") String puzzleId, 
+                MultipartHttpServletRequest request) throws InvalidUploadFormatException {
+                    ...
+                    return new ResponseEntity<SpeechInterval>(interval, HttpStatus.OK);
+                    ....
+        }
+    }
 
 
-[1]: http://ec.europa.eu/public_opinion/archives/ebs/ebs_237.en.pdf European Commision: Europeans and Language
+When the servlet receives a POST request to the specified URI, it parses to its HTTP headers, and passes them as function arguments. Finally it converts the POJO returned by the method and sends a JSON reponse to the client. It's not only not the coder's responsibility to deal with HTTP communication, the Inversion of Control design principle eliminates the manually manage to controller, which leads to more decoupled code.
+
+### Dependency Injection
+
+The Dependency Injection design principle takes the factory method pattern a step further. Similarly to Java Enterprise Beans, the framework enables defining Java objects as Spring Beans, and the framework will handle instantiation of the object. Additionally a Spring Bean may define other Spring Beans as its dependencies, in which case the framework will automatically inject these dependencies. 
+
+In case of the Pronuncation Trainer few example, we've defined a service class which loads entities from the database with a given name. To promote loose decoupling, the implementation and the interface of this service is separated. The current implementation depends on a JPA repository for accessing entities in the database, this dependency is injected by the framework.
+
+    @Service
+    public class PuzzleServiceImpl implements PuzzleService {
+
+        @Autowired
+        private PuzzleRepository repository;
+        
+        @Override
+        public PuzzleEntity getPuzzle(String puzzleCode) throws PuzzleEntityNotFoundException {
+            ...
+        }
+        ...
+    }
+
+
+[1]: http://ec.europa.eu/public_opinion/archives/ebs/ebs_237.en.pdf European Commission: Europeans and Language
 
 [2]: http://reallifeglobal.com/7-tips-to-drastically-improve-your-pronunciation-in-english Real Life: 7 Tips to Drastically Improve Your Pronunciation in English
 
-[3]: http://docs.oracle.com/javaee/: Oracle Coorporation: Java Platform, Enterprise Edition (Java EE) Technical Documentation
+[3]: http://docs.oracle.com/javaee/: Oracle Corporation: Java Platform, Enterprise Edition (Java EE) Technical Documentation
 
 [4]: Dhrubojyoti Kayal, Apress, 2008: Pro Java™ EE Spring Patterns
 
