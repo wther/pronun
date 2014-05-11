@@ -17,4 +17,9 @@ public interface PuzzleRepository extends JpaRepository<PuzzleEntity, Long>{
 	 * Find puzzle by puzzle code
 	 */
 	public List<PuzzleEntity> findByPuzzleCode(String puzzleCode);
+	
+	/**
+	 * Find puzzle by puzzle text
+	 */
+	public List<PuzzleEntity> findByPuzzleTextLike(String puzzleText);
 }

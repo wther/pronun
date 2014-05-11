@@ -36,7 +36,7 @@ public class PuzzleEntity {
      */
     @Column(name = "phonetic")
     private String phoneticText;
-
+    
     /**
      * Stream to audio file
      */

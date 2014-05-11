@@ -29,14 +29,9 @@ require(['jquery', 'modules/user', 'modules/native'], function($, user, native) 
         user.play();
     };
     
-    user.onReplayReady = function(){
-        $('#userReplayButton').removeClass('disabled');    
-    };
-    
     $('#userButton').unbind(userButtonClick).click(userButtonClick);
     
     $('#userReplayButton').unbind(userReplayButtonClick).click(userReplayButtonClick);
-    $('#userReplayButton').addClass('disabled');
     
     $('#nativeReplayButton').unbind(nativeButtonClick).click(nativeButtonClick);
     
