@@ -8,6 +8,7 @@ How to launch the application?
 
 You will need to clone this repository onto your local machine, and Java JDK and Maven is required. You can compile and launch the server with these commands:
 
+	mvn clean install pronun-loader/pom.xml
     mvn clean install
     mvn jetty:run-war
     

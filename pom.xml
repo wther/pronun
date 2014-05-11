@@ -12,7 +12,6 @@
 		<module>pronun-voice</module>
 		<module>pronun-data</module>
 		<module>pronun-webapp</module>
-		<module>pronun-loader</module>
 	</modules>
 
 	<properties>
@@ -29,7 +28,7 @@
 		<hibernate.persistence.version>1.0.0.Final</hibernate.persistence.version>
 		<hsqldb.version>2.2.8</hsqldb.version>
 	</properties>
-
+	
 	<dependencyManagement>
 		<dependencies>
 			<!-- Modules -->
@@ -211,7 +210,6 @@
 				<artifactId>commons-io</artifactId>
 				<version>2.4</version>
 			</dependency>
-
 			<dependency>
 				<groupId>net.sf.opencsv</groupId>
 				<artifactId>opencsv</artifactId>
@@ -229,8 +227,17 @@
 				<directory>${basedir}/src/main/resources</directory>
 			</resource>
 		</resources>
-
 		<plugins>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.2.0.M0</version>
+				<inherited>false</inherited>
+				<configuration>
+					<war>${basedir}/pronun-webapp/target/pronun.war</war>
+				</configuration>
+			</plugin>
+		
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -263,15 +270,6 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
-				</configuration>
-			</plugin>
-
-			<plugin>
-  				<groupId>org.eclipse.jetty</groupId>
-  				<artifactId>jetty-maven-plugin</artifactId>
-	            <version>8.1.12.v20130726</version>
-				<configuration>
-					<war>${basedir}/pronun-webapp/target/pronun.war</war>
 				</configuration>
 			</plugin>
 
